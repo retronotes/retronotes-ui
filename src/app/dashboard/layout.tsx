@@ -17,14 +17,7 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+import { Toaster } from "@/components/ui/toaster"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
     SignedIn,
@@ -169,7 +162,9 @@ export default function RootLayout({
                     </SignedIn>
                 </header>
                 {children}
+                <Toaster />
             </div>
+       
         </div>
 
 
