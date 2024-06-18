@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run prisma && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prisma":"npx prisma generate"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.1.5",
