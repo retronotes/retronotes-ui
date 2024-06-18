@@ -56,7 +56,7 @@ const ListRetroNotes = ({user_id}:ListRetroNotesProp) => {
         if (user_id != undefined) {
             getRetroNotes()
         }
-    }, [])
+    }, [user_id])
 
     return (
         <>
