@@ -1,8 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { useUser } from '@clerk/nextjs';
-import { Button } from "@/components/ui/button";
 import { Ellipsis } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
@@ -16,51 +14,38 @@ type RetroNotes = {
 }
 
 type ListRetroNotesProp = {
-    retroNotes: RetroNotes[]
+    retroNotes: RetroNotes[],
+    onDelete: (user_id: string, id: string) => void
 }
 
-const ListRetroNotes = ({ retroNotes }: ListRetroNotesProp) => {
+
+const ListRetroNotes = ({ retroNotes,onDelete }: ListRetroNotesProp) => {
     return (
-        <>
-            {retroNotes.length > 0 ?
-                <div className="flex flex-wrap p-5 rounded-lg border border-dashed shadow-sm">
-                    {retroNotes.map((retro) => (
-                        <div
-                            key={retro.id}
-                            className='rounded-lg border h-[70px] w-[400px] shadow-sm p-5 m-2 cursor-pointer hover:border-slate-400'
-                        >
-                            <div className='flex justify-between'>
-                                <div>{retro.retro_name}</div>
-                                <div>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger>
-                                            <Button type="button" className='border-transparent h-6 px-1 rounded-md' variant="outline">
-                                                <Ellipsis className="h-4 w-4" />
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent>
-                                            <DropdownMenuItem disabled>Edit</DropdownMenuItem>
-                                            <DropdownMenuItem>Delete</DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </div>
+            <div className="flex flex-wrap p-5 rounded-lg border border-dashed shadow-sm">
+                {retroNotes.map((retro,idx) => (
+                    <div
+                        key={idx}
+                        className='rounded-lg border h-[70px] w-[400px] shadow-sm p-5 m-2 cursor-pointer hover:border-slate-400'
+                    >
+                        <div className='flex justify-between'>
+                            <div>{retro?.retro_name}</div>
+                            <div>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger>
+                                        <div className='border border-transparent  px-1 rounded-sm hover:border-gray-400'>
+                                           <Ellipsis className="h-4 w-4" />
+                                        </div>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent>
+                                        <DropdownMenuItem disabled>Edit</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={() => onDelete(retro?.user_id, retro?.id)}>Delete</DropdownMenuItem>
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                             </div>
                         </div>
-                    ))}
-                </div>
-                :
-                <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-                    <div className="flex flex-col w-full items-center gap-1 text-center">
-                        <h3 className="text-7xl font-bold tracking-tight">
-                            You have no retro notes
-                        </h3>
-                        <p className="text-xl text-muted-foreground">
-                            Create your first retro note.
-                        </p>
                     </div>
-                </div>
-            }
-        </>
+                ))}
+            </div>
     );
 };
 

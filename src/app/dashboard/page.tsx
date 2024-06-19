@@ -10,7 +10,9 @@ import { useToast } from "@/components/ui/use-toast";
 const Dashboard = () => {
     const { user } = useUser();
     const [retroNotes, setRetroNotes] = useState([]);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { toast } = useToast();
+
 
     const fetchRetroNotes = async () => {
         if (!user?.id) return;
@@ -22,10 +24,31 @@ const Dashboard = () => {
         if (response.ok) {
             const data = await response.json();
             setRetroNotes(data);
+            setIsDialogOpen(false);
         } else {
             const errorData = await response.json();
             toast({
                 title: "Error: Retro Notes",
+                description: `${errorData.error}`,
+            });
+        }
+    };
+
+    const handleDeleteRetro = async (user_id, id) => {
+        const response = await fetch(`/api/retronote/${user_id}/${id}`, {
+            method: 'DELETE',
+        });
+        if (response.ok) {
+            const data = await response.json();
+            toast({
+                title: "Deleted Successfully",
+                description: `${data.message}`,
+            });
+            fetchRetroNotes();
+        } else {
+            const errorData = await response.json();
+            toast({
+                title: "Error Occurred",
                 description: `${errorData.error}`,
             });
         }
@@ -44,7 +67,7 @@ const Dashboard = () => {
                     </h1>
                 </div>
                 <div>
-                    <Dialog>
+                    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                         <DialogTrigger className="border p-2 rounded-lg hover:border-gray-400">
                             + New Retro Note
                         </DialogTrigger>
@@ -57,7 +80,22 @@ const Dashboard = () => {
                     </Dialog>
                 </div>
             </div>
-            <ListRetroNotes retroNotes={retroNotes} />
+
+            {retroNotes?.length > 0 ?
+                <ListRetroNotes retroNotes={retroNotes} onDelete={handleDeleteRetro} />
+                :
+                <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
+                    <div className="flex flex-col w-full items-center gap-1 text-center">
+                        <h3 className="text-7xl font-bold tracking-tight">
+                            You have no retro notes
+                        </h3>
+                        <p className="text-xl text-muted-foreground">
+                            Create your first retro note.
+                        </p>
+                        <CreateNewRetro user_id={user?.id} onCreate={fetchRetroNotes} />
+
+                    </div>
+                </div>}
         </main>
     );
 };
