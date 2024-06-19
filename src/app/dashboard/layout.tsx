@@ -1,7 +1,6 @@
 import Link from "next/link"
 import {
     Bell,
-    CircleUser,
     Home,
     LineChart,
     Menu,
@@ -20,7 +19,6 @@ import {
 import { Toaster } from "@/components/ui/toaster"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
-    SignedIn,
     UserButton
 } from '@clerk/nextjs'
 export default function RootLayout({
@@ -45,7 +43,7 @@ export default function RootLayout({
                     <div className="flex-1">
                         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
                             <Link
-                                href="#"
+                                href="/dashboard"
                                 className="flex items-center gap-3 rounded-lg px-3 py-2 bg-muted text-primary transition-all hover:text-primary"
                             >
                                 <Home className="h-4 w-4" />
@@ -114,7 +112,7 @@ export default function RootLayout({
                                     <span className="sr-only">Retro Notes</span>
                                 </Link>
                                 <Link
-                                    href="#"
+                                    href="/dashboard"
                                     className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-primary hover:text-foreground"
                                 >
                                     <Home className="h-5 w-5" />
@@ -157,9 +155,7 @@ export default function RootLayout({
                             </div>
                         </SheetContent>
                     </Sheet>
-                    <SignedIn>
-                        <UserButton />
-                    </SignedIn>
+                    <UserButton />
                 </header>
                 {children}
                 <Toaster />

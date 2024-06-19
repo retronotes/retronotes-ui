@@ -26,11 +26,9 @@ export async function DELETE(req: NextRequest, { params }: { params: { id: strin
     const { id } = params;
   
     try {
-      // const retro = await prisma.retro.delete({
-      //   where: { id },
-      // });
-      const retro = id;
-  
+      const retro = await prisma.retro.delete({
+        where: { id },
+      });  
       return NextResponse.json({ message: 'Retro deleted successfully', retro }, { status: 200 });
     } catch (error) {
       return NextResponse.json({ error: `Internal server error: ${error}` }, { status: 500 });
