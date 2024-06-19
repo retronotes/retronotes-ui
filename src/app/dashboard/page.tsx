@@ -34,7 +34,7 @@ const Dashboard = () => {
         }
     };
 
-    const handleDeleteRetro = async (user_id, id) => {
+    const handleDeleteRetro = async (user_id:string, id:string) => {
         const response = await fetch(`/api/retronote/${user_id}/${id}`, {
             method: 'DELETE',
         });
