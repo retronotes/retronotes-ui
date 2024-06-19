@@ -3,8 +3,8 @@
 
 import { Ellipsis } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-
-type RetroNotes = {
+import Link from "next/link";
+type RetroNote = {
     id: string,
     user_id: string,
     retro_name: string,
@@ -14,17 +14,17 @@ type RetroNotes = {
 }
 
 type ListRetroNotesProp = {
-    retroNotes: RetroNotes[],
+    retroNotes: RetroNote[],
     onDelete: (user_id: string, id: string) => void
 }
 
 
-const ListRetroNotes = ({ retroNotes,onDelete }: ListRetroNotesProp) => {
+const ListRetroNotes = ({ retroNotes, onDelete }: ListRetroNotesProp) => {
     return (
-            <div className="flex flex-wrap p-5 rounded-lg border border-dashed shadow-sm">
-                {retroNotes.map((retro,idx) => (
+        <div className="flex flex-wrap p-5 rounded-lg border border-dashed shadow-sm">
+            {retroNotes.map((retro, idx) => (
+                <Link key={idx} href={`/dashboard/${retro?.user_id}-${retro?.id}`}>
                     <div
-                        key={idx}
                         className='rounded-lg border h-[70px] w-[400px] shadow-sm p-5 m-2 cursor-pointer hover:border-slate-400'
                     >
                         <div className='flex justify-between'>
@@ -33,7 +33,7 @@ const ListRetroNotes = ({ retroNotes,onDelete }: ListRetroNotesProp) => {
                                 <DropdownMenu>
                                     <DropdownMenuTrigger>
                                         <div className='border border-transparent  px-1 rounded-sm hover:border-gray-400'>
-                                           <Ellipsis className="h-4 w-4" />
+                                            <Ellipsis className="h-4 w-4" />
                                         </div>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent>
@@ -44,8 +44,10 @@ const ListRetroNotes = ({ retroNotes,onDelete }: ListRetroNotesProp) => {
                             </div>
                         </div>
                     </div>
-                ))}
-            </div>
+                </Link>
+
+            ))}
+        </div>
     );
 };
 
