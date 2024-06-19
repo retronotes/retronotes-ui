@@ -4,14 +4,18 @@
 import { useState } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Plus  } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast"
-type CreateNewRetroProp={
-    user_id: null | undefined | string
+import { Plus } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+
+type CreateNewRetroProp = {
+    user_id: null | undefined | string,
+    onCreate: () => void
 }
-const CreateNewRetro = ({user_id}:CreateNewRetroProp) => {
-    const { toast } = useToast()
+
+const CreateNewRetro = ({ user_id, onCreate }: CreateNewRetroProp) => {
+    const { toast } = useToast();
     const [retroName, setRetroName] = useState('');
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const response = await fetch('/api/retronote', {
@@ -27,13 +31,14 @@ const CreateNewRetro = ({user_id}:CreateNewRetroProp) => {
             toast({
                 title: "Success: New Retro Note",
                 description: `${data.message}`,
-            })
+            });
+            onCreate();
         } else {
             const errorData = await response.json();
             toast({
                 title: "Error: New Retro Note",
                 description: `${errorData.error}`,
-            })
+            });
         }
 
         setRetroName('');
@@ -49,11 +54,10 @@ const CreateNewRetro = ({user_id}:CreateNewRetroProp) => {
                 onChange={(e) => setRetroName(e.target.value)}
                 required
             />
-           
-                <Button type="submit" variant="outline">
-                    <Plus className="mr-2 h-4 w-4" />
-                    Create
-                </Button>
+            <Button type="submit" variant="outline">
+                <Plus className="mr-2 h-4 w-4" />
+                Create
+            </Button>
         </form>
     );
 };
