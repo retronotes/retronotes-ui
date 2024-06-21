@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import { useParams } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
@@ -53,7 +54,51 @@ export default function Page() {
         index: null,
     });
 
+
+    const fetchRetroNotes = async () => {
+        setIsLoading(true);
+        const [user_id, retro_id] = id.split('-');
+        try {
+            const response = await fetch(`/api/retronote/${user_id}/${retro_id}`, {
+                method: 'GET',
+                cache: 'no-cache'
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setRetroNote(data);
+            } else {
+                const errorData = await response.json();
+                toast({
+                    title: `Error: Retro Note`,
+                    description: `${errorData.error}`,
+                });
+            }
+        } catch (error) {
+            console.error('Error fetching retro notes:', error);
+            toast({
+                title: 'Error',
+                description: 'Failed to fetch retro notes.',
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
+        fetchRetroNotes();
+    }, []);
+
+    const sendRetroNote = (updatedRetroNote: RetroNote) => {
+        if (wsClient.current && wsClient.current.readyState === WebSocket.OPEN) {
+            wsClient.current.send(JSON.stringify(updatedRetroNote));
+        } else {
+            console.warn('WebSocket is not open. Ready state:', wsClient.current?.readyState);
+        }
+    };
+    
+    useEffect(() => {
+        if (!retroNote.id) return;
         const socket = new WebSocket(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}`);
         wsClient.current = socket;
 
@@ -95,49 +140,7 @@ export default function Page() {
         return () => {
             socket.close();
         };
-    }, []);
-
-    const sendRetroNote = (updatedRetroNote: RetroNote) => {
-        if (wsClient.current && wsClient.current.readyState === WebSocket.OPEN) {
-            wsClient.current.send(JSON.stringify(updatedRetroNote));
-        } else {
-            console.warn('WebSocket is not open. Ready state:', wsClient.current?.readyState);
-        }
-    };
-
-    const fetchRetroNotes = async () => {
-        setIsLoading(true);
-        const [user_id, retro_id] = id.split('-');
-        try {
-            const response = await fetch(`/api/retronote/${user_id}/${retro_id}`, {
-                method: 'GET',
-                cache: 'no-cache'
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setRetroNote(data);
-            } else {
-                const errorData = await response.json();
-                toast({
-                    title: `Error: Retro Note`,
-                    description: `${errorData.error}`,
-                });
-            }
-        } catch (error) {
-            console.error('Error fetching retro notes:', error);
-            toast({
-                title: 'Error',
-                description: 'Failed to fetch retro notes.',
-            });
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchRetroNotes();
-    }, []);
+    }, [retroNote?.id]);
 
     const handleAddItem = (section: keyof RetroNote) => {
         if (newItem[section] !== '') {
