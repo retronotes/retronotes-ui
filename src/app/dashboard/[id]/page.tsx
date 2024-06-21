@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Plus, EllipsisVertical, Edit, Trash2 } from "lucide-react";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import RetroNoteFound from "@/components/RetroNotFound";
 
 type RetroNote = {
     id: string;
@@ -32,6 +33,8 @@ export default function Page() {
     });
 
     const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
+
     const [newItem, setNewItem] = useState<{ [key: string]: string }>({
         what_went_well: '',
         what_went_wrong: '',
@@ -69,6 +72,7 @@ export default function Page() {
                 setRetroNote(data);
             } else {
                 const errorData = await response.json();
+                setIsError(true)
                 toast({
                     title: `Error: Retro Note`,
                     description: `${errorData.error}`,
@@ -195,13 +199,11 @@ export default function Page() {
     return (
         <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
             {isLoading ? <h1>Loading...</h1> : (
-                <>
-                    <h1 className="text-lg font-light md:text-2xl">
-                        {retroNote.retro_name || "Retro Name"}
-                    </h1>
-                    <div className="h-full">
+                
+                 isError ? <RetroNoteFound/>
+                    : <div className="h-full">
                         <ResizablePanelGroup direction="horizontal" className="min-h-[200px] rounded-lg border">
-                            <ResizablePanel defaultSize={33}>
+                            <ResizablePanel>
                                 <div className="h-full p-3">
                                     <div className="flex justify-between">
                                         <div>
@@ -264,8 +266,8 @@ export default function Page() {
                                     </div>
                                 </div>
                             </ResizablePanel>
-                            <ResizableHandle />
-                            <ResizablePanel defaultSize={33}>
+                            <ResizableHandle withHandle />
+                            <ResizablePanel>
                                 <div className="h-full p-3">
                                     <div className="flex justify-between">
                                         <div>
@@ -328,8 +330,8 @@ export default function Page() {
                                     </div>
                                 </div>
                             </ResizablePanel>
-                            <ResizableHandle />
-                            <ResizablePanel defaultSize={33}>
+                            <ResizableHandle withHandle/>
+                            <ResizablePanel>
                                 <div className="h-full p-3">
                                     <div className="flex justify-between">
                                         <div>
@@ -394,7 +396,7 @@ export default function Page() {
                             </ResizablePanel>
                         </ResizablePanelGroup>
                     </div>
-                </>
+                
             )}
         </div>
     );
