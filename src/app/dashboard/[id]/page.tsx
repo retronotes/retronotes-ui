@@ -54,7 +54,7 @@ export default function Page() {
     });
 
     useEffect(() => {
-        const socket = new WebSocket('ws://ec2-13-201-72-55.ap-south-1.compute.amazonaws.com/');
+        const socket = new WebSocket(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}`);
         wsClient.current = socket;
 
         socket.onopen = () => {
