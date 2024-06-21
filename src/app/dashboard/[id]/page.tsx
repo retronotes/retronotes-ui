@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-'use client'
+'use client';
 import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
@@ -21,7 +21,7 @@ type RetroNote = {
 export default function Page() {
     const { id } = useParams<{ id: string }>();
     const { toast } = useToast(); 
-
+    const wsClient = useRef<WebSocket | null>(null);
     const [retroNote, setRetroNote] = useState<RetroNote>({
         id: '',
         user_id: '',
@@ -53,6 +53,7 @@ export default function Page() {
         section: '',
         index: null,
     });
+
 
     const fetchRetroNotes = async () => {
         setIsLoading(true);
@@ -88,12 +89,67 @@ export default function Page() {
         fetchRetroNotes();
     }, []);
 
+    const sendRetroNote = (updatedRetroNote: RetroNote) => {
+        if (wsClient.current && wsClient.current.readyState === WebSocket.OPEN) {
+            wsClient.current.send(JSON.stringify(updatedRetroNote));
+        } else {
+            console.warn('WebSocket is not open. Ready state:', wsClient.current?.readyState);
+        }
+    };
+    
+    useEffect(() => {
+        if (!retroNote.id) return;
+        const socket = new WebSocket(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}`);
+        wsClient.current = socket;
+
+        socket.onopen = () => {
+            console.log('WebSocket Client Connected');
+            // Send initial retroNote after connection is open
+            socket.send(JSON.stringify(retroNote));
+        };
+
+        socket.onclose = () => {
+            console.log('WebSocket Client Disconnected');
+        };
+
+        socket.onmessage = (message) => {
+            const handleMessage = (data: string) => {
+                try {
+                    const receivedData = JSON.parse(data);
+                    console.log("WebSocket data", receivedData);
+                    setRetroNote((prevRetroNote) => ({
+                        ...prevRetroNote,
+                        ...receivedData,
+                    }));
+                } catch (error) {
+                    console.error("Error parsing JSON", error);
+                }
+            };
+
+            if (message.data instanceof Blob) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    handleMessage(reader.result as string);
+                };
+                reader.readAsText(message.data);
+            } else {
+                handleMessage(message.data);
+            }
+        };
+
+        return () => {
+            socket.close();
+        };
+    }, [retroNote?.id]);
+
     const handleAddItem = (section: keyof RetroNote) => {
         if (newItem[section] !== '') {
-            setRetroNote((prev) => ({
-                ...prev,
-                [section]: [...prev[section], newItem[section]],
-            }));
+            const updatedRetroNote = {
+                ...retroNote,
+                [section]: [...retroNote[section], newItem[section]],
+            };
+            setRetroNote(updatedRetroNote);
+            sendRetroNote(updatedRetroNote);
             setNewItem((prev) => ({ ...prev, [section]: '' }));
             setShowInput((prev) => ({ ...prev, [section]: false }));
         }
@@ -102,20 +158,24 @@ export default function Page() {
     const handleEditItem = (section: keyof RetroNote, index: number) => {
         const editedItems = [...retroNote[section]];
         editedItems[index] = newItem[section];
-        setRetroNote((prev) => ({
-            ...prev,
+        const updatedRetroNote = {
+            ...retroNote,
             [section]: editedItems,
-        }));
+        };
+        setRetroNote(updatedRetroNote);
+        sendRetroNote(updatedRetroNote);
         setNewItem((prev) => ({ ...prev, [section]: '' }));
         setEditing({ section: '', index: null });
     };
 
     const handleDeleteItem = (section: keyof RetroNote, index: number) => {
         const updatedItems = (retroNote[section] as string[]).filter((_, i) => i !== index);
-        setRetroNote((prev) => ({
-            ...prev,
+        const updatedRetroNote = {
+            ...retroNote,
             [section]: updatedItems,
-        }));
+        };
+        setRetroNote(updatedRetroNote);
+        sendRetroNote(updatedRetroNote);
     };
 
     const handleDropdownClick = (section: string, index: number) => {
@@ -190,10 +250,11 @@ export default function Page() {
                                             </div>
                                         ))}
                                         {showInput.what_went_well && (
-                                            <div className="mt-2">
+                                            <div className="rounded-sm border border-dashed p-2 m-1 flex justify-between items-center">
                                                 <input
                                                     type="text"
-                                                    className="border border-dashed p-2 w-full bg-black"
+                                                    className="flex-1 border-none bg-zinc-900 mr-1"
+                                                    placeholder="Add new item"
                                                     value={newItem.what_went_well}
                                                     onChange={(e) => setNewItem((prev) => ({ ...prev, what_went_well: e.target.value }))}
                                                     onBlur={() => handleAddItem('what_went_well')}
@@ -203,7 +264,7 @@ export default function Page() {
                                     </div>
                                 </div>
                             </ResizablePanel>
-                            <ResizableHandle withHandle />
+                            <ResizableHandle />
                             <ResizablePanel defaultSize={33}>
                                 <div className="h-full p-3">
                                     <div className="flex justify-between">
@@ -253,10 +314,11 @@ export default function Page() {
                                             </div>
                                         ))}
                                         {showInput.what_went_wrong && (
-                                            <div className="mt-2">
+                                            <div className="rounded-sm border border-dashed p-2 m-1 flex justify-between items-center">
                                                 <input
                                                     type="text"
-                                                    className="border border-dashed p-2 w-full bg-black"
+                                                    className="flex-1 border-none bg-zinc-900 mr-1"
+                                                    placeholder="Add new item"
                                                     value={newItem.what_went_wrong}
                                                     onChange={(e) => setNewItem((prev) => ({ ...prev, what_went_wrong: e.target.value }))}
                                                     onBlur={() => handleAddItem('what_went_wrong')}
@@ -266,7 +328,7 @@ export default function Page() {
                                     </div>
                                 </div>
                             </ResizablePanel>
-                            <ResizableHandle withHandle />
+                            <ResizableHandle />
                             <ResizablePanel defaultSize={33}>
                                 <div className="h-full p-3">
                                     <div className="flex justify-between">
@@ -316,10 +378,11 @@ export default function Page() {
                                             </div>
                                         ))}
                                         {showInput.action_item && (
-                                            <div className="mt-2">
+                                            <div className="rounded-sm border border-dashed p-2 m-1 flex justify-between items-center">
                                                 <input
                                                     type="text"
-                                                    className="border border-dashed p-2 w-full bg-black"
+                                                    className="flex-1 border-none bg-zinc-900 mr-1"
+                                                    placeholder="Add new item"
                                                     value={newItem.action_item}
                                                     onChange={(e) => setNewItem((prev) => ({ ...prev, action_item: e.target.value }))}
                                                     onBlur={() => handleAddItem('action_item')}
