@@ -21,11 +21,11 @@ type ListRetroNotesProp = {
 
 const ListRetroNotes = ({ retroNotes, onDelete }: ListRetroNotesProp) => {
     return (
-        <div className="flex flex-wrap p-5 rounded-lg border border-dashed shadow-sm">
+        <div className="flex flex-wrap p-2">
             {retroNotes.map((retro, idx) => (
                 <Link key={idx} href={`/dashboard/${retro?.user_id}-${retro?.id}`}>
                     <div
-                        className='rounded-lg border h-[70px] w-[400px] shadow-sm p-5 m-2 cursor-pointer hover:border-slate-400'
+                        className='rounded-lg border h-[70px] w-[400px] shadow-sm p-5 mr-3 cursor-pointer hover:border-slate-400'
                     >
                         <div className='flex justify-between'>
                             <div>{retro?.retro_name}</div>

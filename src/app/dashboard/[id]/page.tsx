@@ -6,7 +6,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { Plus, EllipsisVertical, Edit, Trash2 } from "lucide-react";
+import { Plus, EllipsisVertical, Edit, Trash2, Trophy, TreePalm, Rocket } from "lucide-react";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import RetroNoteFound from "@/components/RetroNotFound";
 
@@ -21,7 +21,7 @@ type RetroNote = {
 
 export default function Page() {
     const { id } = useParams<{ id: string }>();
-    const { toast } = useToast(); 
+    const { toast } = useToast();
     const wsClient = useRef<WebSocket | null>(null);
     const [retroNote, setRetroNote] = useState<RetroNote>({
         id: '',
@@ -79,7 +79,6 @@ export default function Page() {
                 });
             }
         } catch (error) {
-            console.error('Error fetching retro notes:', error);
             toast({
                 title: 'Error',
                 description: 'Failed to fetch retro notes.',
@@ -100,14 +99,13 @@ export default function Page() {
             console.warn('WebSocket is not open. Ready state:', wsClient.current?.readyState);
         }
     };
-    
+
     useEffect(() => {
         if (!retroNote.id) return;
         const socket = new WebSocket(`${process.env.NEXT_PUBLIC_WEBSOCKET_URL}`);
         wsClient.current = socket;
 
         socket.onopen = () => {
-            console.log('WebSocket Client Connected');
             // Send initial retroNote after connection is open
             socket.send(JSON.stringify(retroNote));
         };
@@ -120,13 +118,11 @@ export default function Page() {
             const handleMessage = (data: string) => {
                 try {
                     const receivedData = JSON.parse(data);
-                    console.log("WebSocket data", receivedData);
                     setRetroNote((prevRetroNote) => ({
                         ...prevRetroNote,
                         ...receivedData,
                     }));
                 } catch (error) {
-                    console.error("Error parsing JSON", error);
                 }
             };
 
@@ -199,17 +195,20 @@ export default function Page() {
     return (
         <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
             {isLoading ? <h1>Loading...</h1> : (
-                
-                 isError ? <RetroNoteFound/>
+
+                isError ? <RetroNoteFound />
                     : <div className="h-full">
                         <ResizablePanelGroup direction="horizontal" className="min-h-[200px] rounded-lg border">
                             <ResizablePanel>
                                 <div className="h-full p-3">
                                     <div className="flex justify-between">
-                                        <div>
+                                        <div className="flex gap-2 ml-1">
+
                                             <h1 className="text-xl mb-2 subpixel-antialiased font-light tracking-wide capitalize">
-                                                What Went Well
+                                                Achievement
                                             </h1>
+                                            <Trophy className="h-5 w-5 mt-1" color="#FFD700" strokeWidth={3} />
+
                                         </div>
                                         <div>
                                             <Button variant="outline" size="icon" className="mt-[-2px] h-8 w-8" onClick={() => setShowInput((prev) => ({ ...prev, what_went_well: !prev.what_went_well }))}>
@@ -270,11 +269,14 @@ export default function Page() {
                             <ResizablePanel>
                                 <div className="h-full p-3">
                                     <div className="flex justify-between">
-                                        <div>
+
+                                        <div className="flex gap-2 ml-1">
                                             <h1 className="text-xl mb-2 subpixel-antialiased font-light tracking-wide capitalize">
-                                                What Went Wrong
+                                                Areas for Improvement
                                             </h1>
+                                            <TreePalm className=" h-5 w-5 mt-1" color="#11ff00" strokeWidth={3} />
                                         </div>
+
                                         <div>
                                             <Button variant="outline" size="icon" className="mt-[-2px] h-8 w-8" onClick={() => setShowInput((prev) => ({ ...prev, what_went_wrong: !prev.what_went_wrong }))}>
                                                 <Plus className="h-4 w-4" />
@@ -330,14 +332,15 @@ export default function Page() {
                                     </div>
                                 </div>
                             </ResizablePanel>
-                            <ResizableHandle withHandle/>
+                            <ResizableHandle withHandle />
                             <ResizablePanel>
                                 <div className="h-full p-3">
                                     <div className="flex justify-between">
-                                        <div>
+                                    <div className="flex gap-2 ml-1">
                                             <h1 className="text-xl mb-2 subpixel-antialiased font-light tracking-wide capitalize">
                                                 Action Items
                                             </h1>
+                                            <Rocket className=" h-5 w-5 mt-1" color="#ff0000" strokeWidth={3} />
                                         </div>
                                         <div>
                                             <Button variant="outline" size="icon" className="mt-[-2px] h-8 w-8" onClick={() => setShowInput((prev) => ({ ...prev, action_item: !prev.action_item }))}>
@@ -396,7 +399,7 @@ export default function Page() {
                             </ResizablePanel>
                         </ResizablePanelGroup>
                     </div>
-                
+
             )}
         </div>
     );

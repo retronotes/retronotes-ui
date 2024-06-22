@@ -10,6 +10,7 @@ import { useToast } from "@/components/ui/use-toast";
 const Dashboard = () => {
     const { user } = useUser();
     const [retroNotes, setRetroNotes] = useState([]);
+    const [isretroNotesFetched, setIsretroNotesFetched] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const { toast } = useToast();
 
@@ -25,6 +26,7 @@ const Dashboard = () => {
             const data = await response.json();
             setRetroNotes(data);
             setIsDialogOpen(false);
+            setIsretroNotesFetched(true)
         } else {
             const errorData = await response.json();
             toast({
@@ -34,7 +36,7 @@ const Dashboard = () => {
         }
     };
 
-    const handleDeleteRetro = async (user_id:string, id:string) => {
+    const handleDeleteRetro = async (user_id: string, id: string) => {
         const response = await fetch(`/api/retronote/${user_id}/${id}`, {
             method: 'DELETE',
         });
@@ -62,13 +64,13 @@ const Dashboard = () => {
         <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-lg font-semibold md:text-2xl">
-                        Retro Notes
+                    <h1 className="text-lg  md:text-md text-slate-100">
+                        My Retros
                     </h1>
                 </div>
                 <div>
                     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                        <DialogTrigger className="border p-2 rounded-lg hover:border-gray-400">
+                        <DialogTrigger className="border p-2 rounded-lg hover:bg-primary/90 bg-white text-black">
                             + New Retro Note
                         </DialogTrigger>
                         <DialogContent>
@@ -83,20 +85,22 @@ const Dashboard = () => {
 
             {retroNotes?.length > 0 ?
                 <ListRetroNotes retroNotes={retroNotes} onDelete={handleDeleteRetro} />
-                :
-                <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
-                    <div className="flex flex-col w-full items-center gap-1 text-center">
-                        <h3 className="text-7xl font-bold tracking-tight">
-                            You have no retro notes
-                        </h3>
-                        <p className="text-xl text-muted-foreground">
-                            Create your first retro note.
-                        </p>
-                        <CreateNewRetro user_id={user?.id} onCreate={fetchRetroNotes} />
+                : null}
 
-                    </div>
-                </div>}
+            {isretroNotesFetched && retroNotes?.length === 0 ? <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">
+                <div className="flex flex-col w-full items-center gap-1 text-center">
+                    <h3 className="text-7xl font-bold tracking-tight">
+                        You have no retro notes
+                    </h3>
+                    <p className="text-xl text-muted-foreground">
+                        Create your first retro note.
+                    </p>
+                    <CreateNewRetro user_id={user?.id} onCreate={fetchRetroNotes} />
+
+                </div>
+            </div> : null}
         </main>
+
     );
 };
 
