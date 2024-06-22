@@ -1,0 +1,34 @@
+name: Lint
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_call:
+    inputs:
+      branch:
+        description: 'The current branch'
+        default: main
+        type: string
+        required: false
+
+env:
+  BRANCH_NAME: ${{ github.head_ref || inputs.branch || 'main' }}
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ env.BRANCH_NAME }}
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install
+        run: npm install
+        
+      - name: Lint
+        run: npm run lint
