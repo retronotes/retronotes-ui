@@ -4,7 +4,6 @@ import {
 } from '@clerk/nextjs'
 import ButtonSlot from "@/components/ButtonsSlot"
 import {
-    Bird,
     Book,
     Bot,
     Github,
