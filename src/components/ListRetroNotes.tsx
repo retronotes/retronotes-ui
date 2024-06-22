@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-
+import {MouseEvent} from "react"
 import { Ellipsis } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
@@ -15,17 +15,19 @@ type RetroNote = {
 
 type ListRetroNotesProp = {
     retroNotes: RetroNote[],
-    onDelete: (user_id: string, id: string) => void
+    onDelete: (e:MouseEvent,user_id: string, id: string) => void
+    onEdit: (e:MouseEvent,user_id: string, id: string) => void
+
 }
 
 
-const ListRetroNotes = ({ retroNotes, onDelete }: ListRetroNotesProp) => {
+const ListRetroNotes = ({ retroNotes, onDelete,onEdit }: ListRetroNotesProp) => {
     return (
-        <div className="flex flex-wrap p-5 rounded-lg border border-dashed shadow-sm">
+        <div className="flex flex-wrap p-2">
             {retroNotes.map((retro, idx) => (
                 <Link key={idx} href={`/dashboard/${retro?.user_id}-${retro?.id}`}>
                     <div
-                        className='rounded-lg border h-[70px] w-[400px] shadow-sm p-5 m-2 cursor-pointer hover:border-slate-400'
+                        className='rounded-lg border h-[70px] w-[400px] shadow-sm p-5 mr-3 cursor-pointer hover:border-slate-400'
                     >
                         <div className='flex justify-between'>
                             <div>{retro?.retro_name}</div>
@@ -37,8 +39,8 @@ const ListRetroNotes = ({ retroNotes, onDelete }: ListRetroNotesProp) => {
                                         </div>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent>
-                                        <DropdownMenuItem disabled>Edit</DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => onDelete(retro?.user_id, retro?.id)}>Delete</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={(e) => onEdit(e,retro?.user_id, retro?.id)}>Edit</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={(e) => onDelete(e,retro?.user_id, retro?.id)}>Delete</DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </div>

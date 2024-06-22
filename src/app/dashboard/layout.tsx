@@ -1,24 +1,28 @@
-import Link from "next/link"
-import {
-    Bell,
-    Home,
-    Menu,
-    StepBack,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card"
-import { Toaster } from "@/components/ui/toaster"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+
 import {
     UserButton
 } from '@clerk/nextjs'
 import ButtonSlot from "@/components/ButtonsSlot"
+import {
+    Bird,
+    Book,
+    Bot,
+    Github,
+    LifeBuoy,
+    Settings2,
+    SquareTerminal,
+    SquareUser,
+    StepBack,
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+    TooltipProvider
+} from "@/components/ui/tooltip"
+import Link from 'next/link'
+
 export default function RootLayout({
     children,
 }: Readonly<{
@@ -26,106 +30,156 @@ export default function RootLayout({
 }>) {
 
     return (
-        <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-            <div className="hidden border-r md:block">
-                <div className="flex h-full max-h-screen flex-col gap-2">
-                    <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-                        <Link href="/" className="flex items-center gap-2 font-semibold">
-                            <StepBack className="h-6 w-6" />
-                            <span className="">Retro Notes</span>
-                        </Link>
-                        </div>
-                        <div className="flex-1">
-                            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                                <Link
-                                    href="/dashboard"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 bg-muted text-primary transition-all hover:text-primary"
-                                >
-                                    <Home className="h-4 w-4" />
-                                    Dashboard
+        <div className="grid h-screen w-full pl-[56px]">
+            <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
+                <div className="border-b p-2">
+                    <Link href="/">
+                        <Button variant="outline" size="icon" aria-label="Home">
+                            <StepBack className="size-5 fill-foreground" />
+                        </Button>
+                    </Link>
+                </div>
+                <nav className="grid gap-1 p-2">
+
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Link href="/dashboard">
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="rounded-lg bg-muted"
+                                        aria-label="Playground"
+                                    >
+                                        <SquareTerminal className="size-5" />
+                                    </Button>
                                 </Link>
-                            </nav>
-                        </div>
-                        <div className="mt-auto p-4">
-                            <Card x-chunk="dashboard-02-chunk-0">
-                                <CardHeader className="p-2 pt-0 md:p-4">
-                                    <CardTitle>Support Us</CardTitle>
-                                    <CardDescription>
-                                        Your contribution ensures continuous improvements, new features and dedicated support.
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-                                    <Link target="_blank" href="https://paypal.me/rakeshkumar1531?country.x=IN&locale.x=en_GB">
-                                        <Button size="sm" className="w-full">
-                                            Support Now
-                                        </Button>
-                                    </Link>
-                                </CardContent>
-                            </Card>
-                        </div>
-                    </div>
-              </div>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={5} >
+                                Retro Notes
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="rounded-lg"
+                                    aria-label="AI"
+                                >
+                                    <Bot className="size-5" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={5}>
+                                AI
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Link target="_blank" href="https://github.com/retronotes">
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="rounded-lg"
+                                        aria-label="Contribute"
+                                    >
+                                        <Github className="size-5" />
+                                    </Button>
+                                </Link>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={5}>
+                                Contribute
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="rounded-lg"
+                                    aria-label="Documentation"
+                                >
+                                    <Book className="size-5" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={5}>
+                                Documentation
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="rounded-lg"
+                                    aria-label="Settings"
+                                >
+                                    <Settings2 className="size-5" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={5}>
+                                Settings
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                </nav>
+                <nav className="mt-auto grid gap-1 p-2">
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="mt-auto rounded-lg"
+                                    aria-label="Help"
+                                >
+                                    <LifeBuoy className="size-5" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={5}>
+                                Help
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="mt-auto rounded-lg"
+                                    aria-label="Account"
+                                >
+                                    <SquareUser className="size-5" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent side="right" sideOffset={5}>
+                                Account
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                </nav>
+            </aside>
             <div className="flex flex-col">
+                <header className="sticky justify-between top-0 z-10 flex h-[57px] items-center gap-1 border-b bg-background px-4">
+                    <h1 className="text-2xl tracking-wide font-light uppercase">Retro Notes</h1>
+                    <div className='flex gap-3' >
+                        <ButtonSlot />
+                        <UserButton />
+                    </div>
 
-                <header className="flex h-14 justify-between md:justify-end items-center gap-4 border-b px-4 lg:h-[60px] lg:px-6">
-
-                    <Sheet>
-                        <SheetTrigger asChild>
-                            <Button
-                                variant="outline"
-                                size="icon"
-                                className="shrink-0 md:hidden"
-                            >
-                                <Menu className="h-5 w-5" />
-                                <span className="sr-only">Toggle navigation menu</span>
-                            </Button>
-                        </SheetTrigger>
-                        <SheetContent side="left" className="flex flex-col">
-                            <nav className="grid gap-2 text-lg font-medium">
-                                <Link
-                                    href="#"
-                                    className="flex items-center gap-2 text-lg font-semibold"
-                                >
-                                    <StepBack className="h-6 w-6" />
-                                    Retro Notes
-                                    <span className="sr-only">Retro Notes</span>
-                                </Link>
-                                <Link
-                                    href="/dashboard"
-                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-primary hover:text-foreground"
-                                >
-                                    <Home className="h-5 w-5" />
-                                    Dashboard
-                                </Link>
-                            </nav>
-                            <div className="mt-auto">
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle>Support Us</CardTitle>
-                                        <CardDescription>
-                                            Your contribution ensures continuous improvements, new features, and dedicated support.
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <Link target="_blank" href="https://paypal.me/rakeshkumar1531?country.x=IN&locale.x=en_GB">
-                                            <Button size="sm" className="w-full">
-                                                Support Now
-                                            </Button>
-                                        </Link>
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        </SheetContent>
-                    </Sheet>
-                    <ButtonSlot />
-                    <UserButton />
                 </header>
                 {children}
-                <Toaster />
             </div>
 
         </div>
-
-
     )
 }

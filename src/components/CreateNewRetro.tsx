@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
 type CreateNewRetroProp = {
@@ -15,9 +15,12 @@ type CreateNewRetroProp = {
 const CreateNewRetro = ({ user_id, onCreate }: CreateNewRetroProp) => {
     const { toast } = useToast();
     const [retroName, setRetroName] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsLoading(true)
         const response = await fetch('/api/retronote', {
             method: 'POST',
             headers: {
@@ -33,6 +36,8 @@ const CreateNewRetro = ({ user_id, onCreate }: CreateNewRetroProp) => {
                 description: `${data.message}`,
             });
             onCreate();
+            setIsLoading(false)
+
         } else {
             const errorData = await response.json();
             toast({
@@ -54,10 +59,17 @@ const CreateNewRetro = ({ user_id, onCreate }: CreateNewRetroProp) => {
                 onChange={(e) => setRetroName(e.target.value)}
                 required
             />
-            <Button type="submit" variant="outline">
+
+            {!isLoading ? <Button type="submit" variant="outline">
                 <Plus className="mr-2 h-4 w-4" />
                 Create
             </Button>
+                :
+                <Button disabled variant="outline">
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Please wait
+                </Button>
+            }
         </form>
     );
 };
