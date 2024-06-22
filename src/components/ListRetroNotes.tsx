@@ -27,7 +27,7 @@ const ListRetroNotes = ({ retroNotes, onDelete,onEdit }: ListRetroNotesProp) => 
             {retroNotes.map((retro, idx) => (
                 <Link key={idx} href={`/dashboard/${retro?.user_id}-${retro?.id}`}>
                     <div
-                        className='rounded-lg border h-[70px] w-[400px] shadow-sm p-5 mr-3 cursor-pointer hover:border-slate-400'
+                        className='rounded-lg border h-[70px] w-[400px] shadow-sm p-5 mr-3 mb-3 cursor-pointer hover:border-slate-400'
                     >
                         <div className='flex justify-between'>
                             <div>{retro?.retro_name}</div>
