@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,MouseEvent } from 'react';
 import ListRetroNotes from '@/components/ListRetroNotes';
 import CreateNewRetro from '@/components/CreateNewRetro';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -36,7 +36,8 @@ const Dashboard = () => {
         }
     };
 
-    const handleDeleteRetro = async (user_id: string, id: string) => {
+    const handleDeleteRetro = async (e:MouseEvent,user_id: string, id: string) => {
+        e.preventDefault();
         const response = await fetch(`/api/retronote/${user_id}/${id}`, {
             method: 'DELETE',
         });
@@ -54,6 +55,12 @@ const Dashboard = () => {
                 description: `${errorData.error}`,
             });
         }
+    };
+
+    const handleEditRetro = async (e:MouseEvent,user_id: string, id: string) => {
+        e.preventDefault();
+        console.log("Edit",user_id,id)
+       
     };
 
     useEffect(() => {
@@ -84,7 +91,7 @@ const Dashboard = () => {
             </div>
 
             {retroNotes?.length > 0 ?
-                <ListRetroNotes retroNotes={retroNotes} onDelete={handleDeleteRetro} />
+                <ListRetroNotes retroNotes={retroNotes} onDelete={handleDeleteRetro} onEdit={handleEditRetro} />
                 : null}
 
             {isretroNotesFetched && retroNotes?.length === 0 ? <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm">

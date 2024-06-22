@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-
+import {MouseEvent} from "react"
 import { Ellipsis } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
@@ -15,11 +15,13 @@ type RetroNote = {
 
 type ListRetroNotesProp = {
     retroNotes: RetroNote[],
-    onDelete: (user_id: string, id: string) => void
+    onDelete: (e:MouseEvent,user_id: string, id: string) => void
+    onEdit: (e:MouseEvent,user_id: string, id: string) => void
+
 }
 
 
-const ListRetroNotes = ({ retroNotes, onDelete }: ListRetroNotesProp) => {
+const ListRetroNotes = ({ retroNotes, onDelete,onEdit }: ListRetroNotesProp) => {
     return (
         <div className="flex flex-wrap p-2">
             {retroNotes.map((retro, idx) => (
@@ -37,8 +39,8 @@ const ListRetroNotes = ({ retroNotes, onDelete }: ListRetroNotesProp) => {
                                         </div>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent>
-                                        <DropdownMenuItem disabled>Edit</DropdownMenuItem>
-                                        <DropdownMenuItem onClick={() => onDelete(retro?.user_id, retro?.id)}>Delete</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={(e) => onEdit(e,retro?.user_id, retro?.id)}>Edit</DropdownMenuItem>
+                                        <DropdownMenuItem onClick={(e) => onDelete(e,retro?.user_id, retro?.id)}>Delete</DropdownMenuItem>
                                     </DropdownMenuContent>
                                 </DropdownMenu>
                             </div>
