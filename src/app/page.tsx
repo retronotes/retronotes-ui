@@ -1,6 +1,6 @@
 import { StepBack } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Github, CornerRightUp } from "lucide-react"
+import { Github, CornerRightUp, MoveRight, DollarSign } from "lucide-react"
 import {
   Accordion,
   AccordionContent,
@@ -29,7 +29,7 @@ export default function Dashboard() {
           </Link>
         </div>
       </div>
-      <div className="flex flex-col  w-full p-10 mt-10 border border-dashed border-b-0 border-gray shadow-md shadow-gray-950 mix-blend-screen">
+      <div className="flex flex-col  w-full p-10 mt-10 border  border-dashed border-b-0 border-gray shadow-md shadow-gray-950 mix-blend-screen">
 
         <div className="flex flex-col items-center gap-4 ">
           <div>
@@ -53,7 +53,7 @@ export default function Dashboard() {
 
             </div>
             <div>
-              <Link target="_blank" href="/https://github.com/retronotes">
+              <Link target="_blank" href="https://github.com/retronotes">
                 <Button variant="secondary" className="mx-2">
                   <Github className="size-5" />
                   Contribute
@@ -73,6 +73,8 @@ export default function Dashboard() {
                 width={1800}
                 height={600}
                 alt="Create RetroImg"
+                placeholder="blur"
+                priority
               >
               </Image>
             </div>
@@ -84,6 +86,8 @@ export default function Dashboard() {
                   width={1800}
                   height={600}
                   alt="Retro Img"
+                  placeholder="blur"
+                  priority
                 >
                 </Image>
               </div>
@@ -93,7 +97,7 @@ export default function Dashboard() {
       </div>
 
       <div className=" p-10 border border-t-0 border-dashed">
-         <h1 className="text-2xl text-center font-thin">Why Retro Notes ?</h1>
+        <h1 className="text-2xl text-center font-thin">Why Retro Notes ?</h1>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
             <AccordionTrigger>Real-Time Collaboration</AccordionTrigger>
@@ -122,9 +126,34 @@ export default function Dashboard() {
         </Accordion>
       </div>
 
+      <div className="flex mt-10 p-5 border justify-between  border-dashed">
+        <div>
+          <h1 className="text-md mt-2 md:mt-1 md:text-xl tracking-wide font-light uppercase ">Retro Notes</h1>
+
+        </div>
+        <div>
+          <Link href="/dashboard">
+            <Button variant="link" className=" ">
+              <MoveRight className="size-5 mr-2" />  Get Started
+            </Button>
+          </Link>
+          <Link target="_blank" href="https://github.com/retronotes">
+            <Button variant="link" className=" ">
+              <Github className="size-5 mr-2" />  Contribute On Github
+            </Button>
+          </Link>
+          <Link target="_blank" href="https://www.paypal.com/paypalme/rakeshkumar1531?country.x=IN&locale.x=en_GB">
+            <Button variant="link" className=" ">
+              <DollarSign className="size-5 mr-2" /> Support Us
+            </Button>
+          </Link>
+        </div>
 
 
 
+
+
+      </div>
     </div>
   )
 }
