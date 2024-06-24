@@ -167,18 +167,7 @@ export default function RootLayout({
                     </TooltipProvider>
                 </nav>
             </aside>
-            <div className="flex flex-col">
-                <header className="sticky justify-between top-0 z-10 flex h-[57px] items-center gap-1 border-b bg-background px-4">
-                    <h1 className="text-2xl tracking-wide font-light uppercase">Retro Notes</h1>
-                    <div className='flex gap-3' >
-                        <ButtonSlot />
-                        <UserButton />
-                    </div>
-
-                </header>
-                {children}
-            </div>
-
+            {children}
         </div>
     )
 }

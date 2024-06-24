@@ -14,7 +14,7 @@ export default function ButtonSlot() {
         <>
             {pathname !== "/dashboard" ?
                 <>
-                    <CopyUrlButton url={CURRENT_URL}/>
+                     <CopyUrlButton url={CURRENT_URL}/>
                      <DownloadCSVButton user_id={user_id} retro_id={retro_id}/>
                   
                 </>
