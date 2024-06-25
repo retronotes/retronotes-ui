@@ -84,7 +84,7 @@ export default function Page() {
                 title: 'Error',
                 description: 'Failed to fetch retro notes.',
             });
-        } 
+        }
     };
 
     useEffect(() => {
@@ -197,8 +197,8 @@ export default function Page() {
             <header className="sticky justify-between top-0 z-10 flex h-[57px] items-center gap-1 border-b bg-background px-4">
                 <h1 className="text-2xl tracking-wide font-light uppercase">
 
-                    {retroNote?.retro_name === "" ? <RetroNameSkeleton/> : retroNote?.retro_name}
-                    </h1>
+                    {retroNote?.retro_name === "" ? <RetroNameSkeleton /> : retroNote?.retro_name}
+                </h1>
                 <div className='flex gap-3' >
                     <ButtonSlot />
                     <UserButton />
@@ -207,8 +207,6 @@ export default function Page() {
             </header>
             <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
                 {
-                    // !isLoading ? <RetroSkeleton /> : (
-
                     isError ? <RetroNoteFound />
                         : <div className="h-full">
                             <ResizablePanelGroup direction="horizontal" className="min-h-[200px] rounded-lg border">
@@ -406,8 +404,6 @@ export default function Page() {
                                 </ResizablePanel>
                             </ResizablePanelGroup>
                         </div>
-
-                    // )
                 }
             </div>
         </div>

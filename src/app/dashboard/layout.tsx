@@ -1,17 +1,6 @@
-
 import {
-    UserButton
-} from '@clerk/nextjs'
-import ButtonSlot from "@/components/ButtonsSlot"
-import {
-    Book,
-    Bot,
-    Github,
-    LifeBuoy,
-    Settings2,
     SquareTerminal,
-    SquareUser,
-    StepBack,
+    StepBack
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -21,6 +10,7 @@ import {
     TooltipProvider
 } from "@/components/ui/tooltip"
 import Link from 'next/link'
+import { Toaster } from "@/components/ui/toaster"
 
 export default function RootLayout({
     children,
@@ -48,126 +38,21 @@ export default function RootLayout({
                                         variant="ghost"
                                         size="icon"
                                         className="rounded-lg bg-muted"
-                                        aria-label="Playground"
+                                        aria-label="Dashboard"
                                     >
                                         <SquareTerminal className="size-5" />
                                     </Button>
                                 </Link>
                             </TooltipTrigger>
                             <TooltipContent side="right" sideOffset={5} >
-                                Retro Notes
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="rounded-lg"
-                                    aria-label="AI"
-                                >
-                                    <Bot className="size-5" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent side="right" sideOffset={5}>
-                                AI
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Link target="_blank" href="https://github.com/retronotes">
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        className="rounded-lg"
-                                        aria-label="Contribute"
-                                    >
-                                        <Github className="size-5" />
-                                    </Button>
-                                </Link>
-                            </TooltipTrigger>
-                            <TooltipContent side="right" sideOffset={5}>
-                                Contribute
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="rounded-lg"
-                                    aria-label="Documentation"
-                                >
-                                    <Book className="size-5" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent side="right" sideOffset={5}>
-                                Documentation
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="rounded-lg"
-                                    aria-label="Settings"
-                                >
-                                    <Settings2 className="size-5" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent side="right" sideOffset={5}>
-                                Settings
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-                </nav>
-                <nav className="mt-auto grid gap-1 p-2">
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="mt-auto rounded-lg"
-                                    aria-label="Help"
-                                >
-                                    <LifeBuoy className="size-5" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent side="right" sideOffset={5}>
-                                Help
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="mt-auto rounded-lg"
-                                    aria-label="Account"
-                                >
-                                    <SquareUser className="size-5" />
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent side="right" sideOffset={5}>
-                                Account
+                                Dashboard
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
                 </nav>
             </aside>
             {children}
+            <Toaster />
         </div>
     )
 }

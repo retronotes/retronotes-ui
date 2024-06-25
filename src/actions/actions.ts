@@ -2,7 +2,7 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { PrismaClient } from "@prisma/client"
-
+const prisma = new PrismaClient();
 export async function createRetroAction(
     prevState: {
         message: string;
@@ -25,7 +25,6 @@ export async function createRetroAction(
         }
 
         const data = parse;
-        const prisma = new PrismaClient();
         const newRetro = await prisma.retro.create({
             data: {
                 user_id: data.userid,
@@ -46,15 +45,19 @@ export async function createRetroAction(
     }
 }
 
-export async function deleteRetroAction(prevState:{message:string},formData:FormData){
+export async function deleteRetroAction(retro_id:string){
     try{
-      console.log("retro_id")
+      const retro = await prisma.retro.delete({
+        where: { id: retro_id },
+      }); 
+      revalidatePath("/board");
+      return {
+          message: "Retro deleted successfully"
+      }
     }catch(error){
-
-    }
-
-    return {
-        message:""
+        return {
+            message:"Failed to delete retro"
+        }
     }
     
 }

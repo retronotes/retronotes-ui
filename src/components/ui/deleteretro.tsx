@@ -1,25 +1,19 @@
 'use client';
-import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { useFormState } from "react-dom";
+import {  DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { deleteRetroAction } from "@/actions/actions";
-const initialState = {
-    message: "",
+import {useToast,toast } from "./use-toast";
+
+
+
+const handleDelete = (retroId:string)=> { 
+   deleteRetroAction(retroId).then((data)=> 
+    toast({
+        title: `Success: ${data.message}`
+    })
+  )
 }
 export default function DeleteRetro({ retroId }: { retroId: string }) {
-    const [state, formAction] = useFormState(deleteRetroAction, initialState)
-    return <>
-        <form action={formAction}>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-            <input
-                type="text"
-                id="retroid"
-                name="retroid"
-                defaultValue={retroId}
-                hidden
-            />
-
-
-        </form>
-    </>
-
+    const { toast } = useToast();
+    
+   return(<DropdownMenuItem onClick={()=>handleDelete(retroId)}>Delete</DropdownMenuItem>)
 }
