@@ -1,6 +1,4 @@
 import { PrismaClient } from "@prisma/client"
-import { Ellipsis } from "lucide-react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import CreateRetro from "./createretro";
 import RetroButtonWrapper from "./retro-button-wrapper";

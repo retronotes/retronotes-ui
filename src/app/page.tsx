@@ -1,4 +1,5 @@
-import { StepBack } from "lucide-react"
+import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Github, CornerRightUp, MoveRight, DollarSign } from "lucide-react"
 import {
@@ -7,10 +8,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import Link from "next/link"
-import Image from "next/image"
 import ListRetro from "../../public/start-retro.webp"
 import CreateRetro from "../../public/create-note.webp"
+import { StepBack } from "lucide-react"
 
 export default function Dashboard() {
   return (
@@ -70,8 +70,8 @@ export default function Dashboard() {
             <div className="border border-dashed border-gray shadow-2xl shadow-gray-900 mix-blend-exclusion">
               <Image
                 src={CreateRetro}
-                width={1800}
-                height={600}
+                width={1516}
+                height={403}
                 alt="Create RetroImg"
                 placeholder="blur"
                 priority
@@ -83,8 +83,8 @@ export default function Dashboard() {
               <div className="border border-dashed  border-gray shadow-2xl shadow-gray-900 mix-blend-screen">
                 <Image
                   src={ListRetro}
-                  width={1800}
-                  height={600}
+                  width={1516}
+                  height={403}
                   alt="Retro Img"
                   placeholder="blur"
                   priority
@@ -148,11 +148,6 @@ export default function Dashboard() {
             </Button>
           </Link>
         </div>
-
-
-
-
-
       </div>
     </div>
   )
