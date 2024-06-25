@@ -11,7 +11,6 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         id,
       },
     });
-
     if (retro) {
       return NextResponse.json(retro, { status: 200 });
     } else {
@@ -22,15 +21,3 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-    const { id } = params;
-  
-    try {
-      const retro = await prisma.retro.delete({
-        where: { id },
-      });  
-      return NextResponse.json({ message: 'Retro deleted successfully', retro }, { status: 200 });
-    } catch (error) {
-      return NextResponse.json({ error: `Internal server error: ${error}` }, { status: 500 });
-    }
-  }
