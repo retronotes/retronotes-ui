@@ -208,7 +208,7 @@ export default function Page() {
             <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
                 {
                     isError ? <RetroNoteFound />
-                        : <div className="h-full">
+                        : <div className="h-[90vh]">
                             <ResizablePanelGroup direction="horizontal" className="min-h-[200px] rounded-lg border">
                                 <ResizablePanel>
                                     <div className="h-full p-3">
@@ -260,7 +260,6 @@ export default function Page() {
                                                 <div className="rounded-sm border border-dashed p-2 m-1 flex justify-between items-center">
                                                     <textarea
                                                       className="flex-1 border-none bg-zinc-900 mr-1"
-                                                      placeholder=""
                                                       value={newItem.what_went_well}
                                                       onChange={(e) => setNewItem((prev) => ({ ...prev, what_went_well: e.target.value }))}
                                                       onBlur={() => handleAddItem('what_went_well')}
@@ -324,7 +323,6 @@ export default function Page() {
                                                 <div className="rounded-sm border border-dashed p-2 m-1 flex justify-between items-center">
                                                     <textarea
                                                       className="flex-1 border-none bg-zinc-900 mr-1"
-                                                      placeholder="Add new item"
                                                       value={newItem.what_went_wrong}
                                                       onChange={(e) => setNewItem((prev) => ({ ...prev, what_went_wrong: e.target.value }))}
                                                       onBlur={() => handleAddItem('what_went_wrong')}
@@ -389,7 +387,6 @@ export default function Page() {
                                                 <div className="rounded-sm border border-dashed p-2 m-1 flex justify-between items-center">
                                                     <textarea
                                                       className="flex-1 border-none bg-zinc-900 mr-1"
-                                                      placeholder="Add new item"
                                                       value={newItem.action_item}
                                                       onChange={(e) => setNewItem((prev) => ({ ...prev, action_item: e.target.value }))}
                                                       onBlur={() => handleAddItem('action_item')}
