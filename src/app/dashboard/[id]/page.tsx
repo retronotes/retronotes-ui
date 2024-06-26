@@ -6,7 +6,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { Plus, EllipsisVertical, Edit, Trash2, Trophy, TreePalm, Rocket } from "lucide-react";
+import { Plus, EllipsisVertical, Edit, Trash2 } from "lucide-react";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import RetroNoteFound from "@/components/RetroNotFound";
 import ButtonSlot from "@/components/ButtonsSlot";
@@ -208,7 +208,7 @@ export default function Page() {
             <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
                 {
                     isError ? <RetroNoteFound />
-                        : <div className="h-full">
+                        : <div className="h-[90vh]">
                             <ResizablePanelGroup direction="horizontal" className="min-h-[200px] rounded-lg border">
                                 <ResizablePanel>
                                     <div className="h-full p-3">
@@ -229,13 +229,12 @@ export default function Page() {
                                                 retroNote.what_went_well.map((item, index) => (
                                                     <div className="rounded-sm border border-dashed p-2 m-1 flex justify-between items-center" key={index}>
                                                         {editing.section === 'what_went_well' && editing.index === index ? (
-                                                            <input
-                                                                type="text"
-                                                                className="flex-1 border-none bg-zinc-900 mr-1"
+                                                            <textarea
+                                                                className="flex-1 border-none bg-zinc-900 mr-1 h-full"
                                                                 value={newItem.what_went_well}
                                                                 onChange={(e) => setNewItem((prev) => ({ ...prev, what_went_well: e.target.value }))}
                                                                 onBlur={() => handleEditItem('what_went_well', index)}
-                                                            />
+                                                            > </textarea>
                                                         ) : (
                                                             <span className="flex-1">{item}</span>
                                                         )}
@@ -259,14 +258,13 @@ export default function Page() {
                                                 ))}
                                             {showInput.what_went_well && (
                                                 <div className="rounded-sm border border-dashed p-2 m-1 flex justify-between items-center">
-                                                    <input
-                                                        type="text"
-                                                        className="flex-1 border-none bg-zinc-900 mr-1"
-                                                        placeholder="Add new item"
-                                                        value={newItem.what_went_well}
-                                                        onChange={(e) => setNewItem((prev) => ({ ...prev, what_went_well: e.target.value }))}
-                                                        onBlur={() => handleAddItem('what_went_well')}
-                                                    />
+                                                    <textarea
+                                                      className="flex-1 border-none bg-zinc-900 mr-1"
+                                                      value={newItem.what_went_well}
+                                                      onChange={(e) => setNewItem((prev) => ({ ...prev, what_went_well: e.target.value }))}
+                                                      onBlur={() => handleAddItem('what_went_well')}
+                                                    >
+                                                    </textarea>
                                                 </div>
                                             )
                                             }
@@ -293,13 +291,13 @@ export default function Page() {
                                                 retroNote?.what_went_wrong.map((item, index) => (
                                                     <div className="rounded-sm border border-dashed p-2 m-1 flex justify-between items-center" key={index}>
                                                         {editing.section === 'what_went_wrong' && editing.index === index ? (
-                                                            <input
-                                                                type="text"
-                                                                className="flex-1 border-none bg-zinc-900 mr-1"
-                                                                value={newItem.what_went_wrong}
-                                                                onChange={(e) => setNewItem((prev) => ({ ...prev, what_went_wrong: e.target.value }))}
-                                                                onBlur={() => handleEditItem('what_went_wrong', index)}
-                                                            />
+                                                            <textarea
+                                                            className="flex-1 border-none bg-zinc-900 mr-1"
+                                                            value={newItem.what_went_wrong}
+                                                            onChange={(e) => setNewItem((prev) => ({ ...prev, what_went_wrong: e.target.value }))}
+                                                            onBlur={() => handleEditItem('what_went_wrong', index)}
+                                                            >
+                                                            </textarea>
                                                         ) : (
                                                             <span className="flex-1">{item}</span>
                                                         )}
@@ -323,14 +321,13 @@ export default function Page() {
                                                 ))}
                                             {showInput.what_went_wrong && (
                                                 <div className="rounded-sm border border-dashed p-2 m-1 flex justify-between items-center">
-                                                    <input
-                                                        type="text"
-                                                        className="flex-1 border-none bg-zinc-900 mr-1"
-                                                        placeholder="Add new item"
-                                                        value={newItem.what_went_wrong}
-                                                        onChange={(e) => setNewItem((prev) => ({ ...prev, what_went_wrong: e.target.value }))}
-                                                        onBlur={() => handleAddItem('what_went_wrong')}
-                                                    />
+                                                    <textarea
+                                                      className="flex-1 border-none bg-zinc-900 mr-1"
+                                                      value={newItem.what_went_wrong}
+                                                      onChange={(e) => setNewItem((prev) => ({ ...prev, what_went_wrong: e.target.value }))}
+                                                      onBlur={() => handleAddItem('what_went_wrong')}
+                                                    >
+                                                    </textarea>
                                                 </div>
                                             )
                                             }
@@ -358,13 +355,13 @@ export default function Page() {
                                                 retroNote.action_item.map((item, index) => (
                                                     <div className="rounded-sm border border-dashed p-2 m-1 flex justify-between items-center" key={index}>
                                                         {editing.section === 'action_item' && editing.index === index ? (
-                                                            <input
-                                                                type="text"
-                                                                className="flex-1 border-none bg-zinc-900 mr-1"
-                                                                value={newItem.action_item}
-                                                                onChange={(e) => setNewItem((prev) => ({ ...prev, action_item: e.target.value }))}
-                                                                onBlur={() => handleEditItem('action_item', index)}
-                                                            />
+                                                            <textarea
+                                                            className="flex-1 border-none bg-zinc-900 mr-1"
+                                                            value={newItem.action_item}
+                                                            onChange={(e) => setNewItem((prev) => ({ ...prev, action_item: e.target.value }))}
+                                                            onBlur={() => handleEditItem('action_item', index)}
+                                                            >
+                                                            </textarea>
                                                         ) : (
                                                             <span className="flex-1">{item}</span>
                                                         )}
@@ -388,14 +385,12 @@ export default function Page() {
                                                 ))}
                                             {showInput.action_item && (
                                                 <div className="rounded-sm border border-dashed p-2 m-1 flex justify-between items-center">
-                                                    <input
-                                                        type="text"
-                                                        className="flex-1 border-none bg-zinc-900 mr-1"
-                                                        placeholder="Add new item"
-                                                        value={newItem.action_item}
-                                                        onChange={(e) => setNewItem((prev) => ({ ...prev, action_item: e.target.value }))}
-                                                        onBlur={() => handleAddItem('action_item')}
-                                                    />
+                                                    <textarea
+                                                      className="flex-1 border-none bg-zinc-900 mr-1"
+                                                      value={newItem.action_item}
+                                                      onChange={(e) => setNewItem((prev) => ({ ...prev, action_item: e.target.value }))}
+                                                      onBlur={() => handleAddItem('action_item')}
+                                                    ></textarea>
                                                 </div>
                                             )
                                             }

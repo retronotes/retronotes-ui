@@ -42,7 +42,7 @@ export function jsonToCsv(data: RetroData, headers: string[]): string {
 
 
 
-export const customHeaders = ['Achievement', 'Areas For Improvement', 'Action Items'];
+export const customHeaders = ['Start Doing', 'Stop Doing/Issues/Should Change', 'Keep Doing/Outcomes And Successs'];
 
 export const downloadCSVFile = (csvContent:string,fileName:string)=>{
         // Create a Blob from the CSV data
