@@ -8,8 +8,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import ListRetro from "../../public/start-retro.webp"
-import CreateRetro from "../../public/create-note.webp"
 import { StepBack } from "lucide-react"
 
 export default function Dashboard() {
@@ -69,11 +67,12 @@ export default function Dashboard() {
             <h1 className="font-thin font-sans text-lime-500 mt-5">CREATE RETRO</h1>
             <div className="border border-dashed border-gray shadow-2xl shadow-gray-900 mix-blend-exclusion">
               <Image
-                src={CreateRetro}
+                src="https://uploadthing-prod-sea1.s3.us-west-2.amazonaws.com/35cad482-512d-4385-8cb8-f98ec349fa98-8xgf6l.webp"
                 width={1516}
                 height={403}
                 alt="Create RetroImg"
                 placeholder="blur"
+                blurDataURL="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
                 priority
               >
               </Image>
@@ -82,11 +81,12 @@ export default function Dashboard() {
               <h1 className="font-thin font-sans text-lime-500 mt-5">START RETRO</h1>
               <div className="border border-dashed  border-gray shadow-2xl shadow-gray-900 mix-blend-screen">
                 <Image
-                  src={ListRetro}
+                  src="https://uploadthing-prod-sea1.s3.us-west-2.amazonaws.com/46b45857-5b84-4c5d-82dc-ff274ed0e8db-m50lf7.webp"
                   width={1516}
                   height={403}
                   alt="Retro Img"
                   placeholder="blur"
+                  blurDataURL="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
                   priority
                 >
                 </Image>
